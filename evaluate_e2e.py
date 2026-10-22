@@ -1,14 +1,3 @@
-"""
-Comprehensive End-to-End Test and Self-Evaluation Suite
-for Unified Business Assistant - Role A (Knowledge Service).
-Evaluates:
-1. Health & Telemetry Probes (/health, /stats, /documents)
-2. Semantic Search Retrieval Accuracy & Provenance (/search)
-3. Conversational Multi-Turn Contextualization (/chat)
-4. Out-of-Scope / Hallucination Guardrail Check (/chat)
-5. Neon PostgreSQL Database Telemetry & Persistence
-"""
-
 import sys
 import json
 import time
