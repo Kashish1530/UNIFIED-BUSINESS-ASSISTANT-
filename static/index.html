@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corporate Policy Assistant | Unified Business Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0B0F19;
+      --bg-surface: #111827;
+      --bg-card: rgba(17, 24, 39, 0.7);
+      --bg-card-hover: rgba(31, 41, 55, 0.8);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(59, 130, 246, 0.3);
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --primary: #3B82F6;
+      --primary-hover: #2563EB;
+      --accent: #10B981;
+      --neon-cyan: #06B6D4;
+      --purple: #8B5CF6;
+      --amber: #F59E0B;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background gradient */
+    .ambient-glow {
+      position: fixed;
+      top: -10vw;
+      right: -10vw;
+      width: 40vw;
+      height: 40vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-glow-2 {
+      position: fixed;
+      bottom: -10vw;
+      left: -10vw;
+      width: 45vw;
+      height: 45vw;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Top Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(11, 15, 25, 0.85);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.9rem 1.8rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #3B82F6, #10B981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .brand-text h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .status-badges {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.75rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      font-weight: 500;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .btn-catalog {
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #60A5FA;
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-catalog:hover {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #60A5FA;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      display: flex;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Chat Section */
+    .chat-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      height: calc(100vh - 120px);
+    }
+
+    .chat-header {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    .chat-header h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Quick Prompts Bar */
+    .quick-prompts {
+      padding: 0.75rem 1.2rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: thin;
+    }
+
+    .prompt-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .prompt-chip:hover {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93C5FD;
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+
+    /* Messages Stream */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .message-row {
+      display: flex;
+      gap: 0.8rem;
+      max-width: 88%;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-row.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .avatar.assistant {
+      background: linear-gradient(135deg, #2563EB, #059669);
+      color: #fff;
+    }
+
+    .avatar.user {
+      background: #4B5563;
+      color: #F3F4F6;
+    }
+
+    .message-bubble {
+      padding: 1rem 1.2rem;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .message-row.assistant .message-bubble {
+      background: rgba(31, 41, 55, 0.6);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+    }
+
+    .message-row.user .message-bubble {
+      background: linear-gradient(135deg, #1E40AF, #1D4ED8);
+      color: #FFFFFF;
+      border-bottom-right-radius: 4px;
+    }
+
+    /* Citations Card */
+    .citations-card {
+      margin-top: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+    }
+
+    .citations-header {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .citation-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .citation-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+    }
+
+    .citation-title {
+      font-weight: 500;
+      color: #93C5FD;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .citation-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34D399;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Input Bar */
+    .input-section {
+      padding: 1rem 1.4rem;
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(11, 15, 25, 0.7);
+    }
+
+    .input-form {
+      display: flex;
+      gap: 0.6rem;
+      position: relative;
+    }
+
+    .input-box {
+      flex: 1;
+      background: rgba(31, 41, 55, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.85rem 1.1rem;
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-box:focus {
+      border-color: #3B82F6;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .send-btn:hover {
+      filter: brightness(1.15);
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Modal for Document Catalog */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .modal-content {
+      background: #111827;
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .doc-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 0.9rem;
+    }
+
+    .doc-card-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+      color: #93C5FD;
+    }
+
+    .doc-card-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-glow"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">UB</div>
+      <div class="brand-text">
+        <h1>Unified Business Assistant</h1>
+        <p>Role A: Corporate Knowledge & Policy Service</p>
+      </div>
+    </div>
+
+    <div class="status-badges">
+      <div class="badge">
+        <span class="pulse-dot"></span>
+        <span id="neon-badge-text">Neon PostgreSQL: Connected</span>
+      </div>
+      <div class="badge">
+        <span style="color: #60A5FA;">&#9670;</span>
+        <span id="chroma-badge-text">Vector Store: 50 Docs</span>
+      </div>
+      <button class="btn-catalog" id="open-catalog-btn">&#128196; View 50 Documents</button>
+    </div>
+  </header>
+
+  <!-- Main View -->
+  <main>
+    <section class="chat-section">
+      <div class="chat-header">
+        <h2>
+          <span>&#129302;</span> Policy Q&A Assistant (Conversational RAG)
+        </h2>
+        <span style="font-size: 0.75rem; color: var(--text-muted);" id="engine-status">
+          Engine: Active & Grounded
+        </span>
+      </div>
+
+      <!-- Quick Prompts -->
+      <div class="quick-prompts">
+        <div class="prompt-chip" onclick="askQuickPrompt('What is the procedure for reporting sexual harassment under POSH?')">POSH Grievance Procedure</div>
+        <div class="prompt-chip" onclick="askQuickPrompt('What are the maternity and parental leave entitlements across the company?')">Parental & Maternity Leaves</div>
+        <div class="prompt-chip" onclick="askQuickPrompt('What is the code of conduct regarding anti-bribery and accepting gifts?')">Gifts & Anti-Bribery Rules</div>
+        <div class="prompt-chip" onclick="askQuickPrompt('What are the CSR committee guidelines and annual project allocations?')">CSR Budget & Activities</div>
+        <div class="prompt-chip" onclick="askQuickPrompt('What are Google Cloud SOC 3 and GDPR compliance guidelines?')">Google SOC 3 & GDPR</div>
+        <div class="prompt-chip" onclick="askQuickPrompt('What are GitLab Expense Policy and Development Principles?')">GitLab Policy & Principles</div>
+      </div>
+
+      <!-- Messages Stream -->
+      <div class="messages-container" id="messages-container">
+        <!-- Welcome Message -->
+        <div class="message-row assistant">
+          <div class="avatar assistant">AI</div>
+          <div class="message-bubble">
+            Hello! I am your <strong>Unified Business Policy Assistant</strong>. I have indexed <strong>50 corporate policy documents</strong> across Susan Electricals, Jayaswal Neco, Reckitt, Google, and GitLab, synchronized with <strong>Neon PostgreSQL</strong>.
+            <br><br>
+            You can ask me questions about company policies, leave rules, anti-corruption standards, CSR projects, or compliance protocols. Every answer includes verifiable source citations and page numbers!
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="input-section">
+        <form class="input-form" id="chat-form">
+          <input type="text" id="user-input" class="input-box" placeholder="Ask any question about company policies, POSH, leaves, CSR, conduct..." autocomplete="off">
+          <button type="submit" class="send-btn" id="send-btn">
+            <span>Send</span> &#10148;
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Document Catalog Modal -->
+  <div class="modal-overlay" id="catalog-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Corporate Policy Document Catalog (50 Documents)</h3>
+        <button class="close-btn" id="close-catalog-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="doc-grid" id="doc-grid-container">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const messagesContainer = document.getElementById("messages-container");
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const catalogModal = document.getElementById("catalog-modal");
+    const openCatalogBtn = document.getElementById("open-catalog-btn");
+    const closeCatalogBtn = document.getElementById("close-catalog-btn");
+    const docGrid = document.getElementById("doc-grid-container");
+
+    const sessionId = "session_" + Math.random().toString(36).substring(2, 9);
+
+    // Fetch initial stats
+    async function fetchStats() {
+      try {
+        const res = await fetch("/stats");
+        if (res.ok) {
+          const data = await res.json();
+          document.getElementById("neon-badge-text").innerText = `Neon PostgreSQL: ${data.neon_table_chunks} Chunks`;
+          document.getElementById("chroma-badge-text").innerText = `Vector Store: ${data.documents_in_catalog} Docs`;
+        }
+      } catch (err) {
+        console.error("Stats fetch error:", err);
+      }
+    }
+
+    // Fetch and populate document catalog
+    async function loadCatalog() {
+      try {
+        const res = await fetch("/documents");
+        if (res.ok) {
+          const data = await res.json();
+          docGrid.innerHTML = "";
+          data.documents.forEach((doc, idx) => {
+            const card = document.createElement("div");
+            card.className = "doc-card";
+            card.innerHTML = `
+              <div class="doc-card-title">${idx + 1}. ${doc.title}</div>
+              <div class="doc-card-meta">
+                <span>${doc.company}</span>
+                <span>${doc.pages} pgs (${doc.size_kb} KB)</span>
+              </div>
+              <div style="font-size: 0.7rem; color: #10B981; margin-top: 0.35rem;">
+                ${doc.category}
+              </div>
+            `;
+            docGrid.appendChild(card);
+          });
+        }
+      } catch (err) {
+        console.error("Catalog load error:", err);
+      }
+    }
+
+    openCatalogBtn.addEventListener("click", () => {
+      catalogModal.style.display = "flex";
+      loadCatalog();
+    });
+
+    closeCatalogBtn.addEventListener("click", () => {
+      catalogModal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === catalogModal) {
+        catalogModal.style.display = "none";
+      }
+    });
+
+    function askQuickPrompt(text) {
+      userInput.value = text;
+      chatForm.dispatchEvent(new Event("submit"));
+    }
+
+    function appendMessage(role, text, citations = [], modelUsed = "") {
+      const row = document.createElement("div");
+      row.className = `message-row ${role}`;
+
+      const avatar = document.createElement("div");
+      avatar.className = `avatar ${role}`;
+      avatar.innerText = role === "user" ? "ME" : "AI";
+
+      const bubble = document.createElement("div");
+      bubble.className = "message-bubble";
+      bubble.innerHTML = text.replace(/\n/g, "<br>");
+
+      // If assistant and citations exist, render citations card
+      if (role === "assistant" && citations && citations.length > 0) {
+        const citCard = document.createElement("div");
+        citCard.className = "citations-card";
+        
+        let citHTML = `
+          <div class="citations-header">
+            <span>Verified Source Citations (${citations.length})</span>
+            <span style="font-size: 0.7rem; text-transform: none; color: #60A5FA;">${modelUsed || "RAG Provenance"}</span>
+          </div>
+          <div class="citation-list">
+        `;
+
+        citations.forEach((c, idx) => {
+          citHTML += `
+            <div class="citation-item">
+              <span class="citation-title">&#128196; ${c.source} (Page ${c.page})</span>
+              <span class="citation-badge">Score: ${(c.score * 100).toFixed(1)}%</span>
+            </div>
+          `;
+        });
+
+        citHTML += "</div>";
+        citCard.innerHTML = citHTML;
+        bubble.appendChild(citCard);
+      }
+
+      row.appendChild(avatar);
+      row.appendChild(bubble);
+      messagesContainer.appendChild(row);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const query = userInput.value.trim();
+      if (!query) return;
+
+      appendMessage("user", query);
+      userInput.value = "";
+      sendBtn.disabled = true;
+
+      // Loading bubble
+      const loadingRow = document.createElement("div");
+      loadingRow.className = "message-row assistant";
+      loadingRow.id = "loading-bubble";
+      loadingRow.innerHTML = `
+        <div class="avatar assistant">AI</div>
+        <div class="message-bubble" style="font-style: italic; color: var(--text-muted);">
+          Searching 50 policy documents in Neon & Chroma...
+        </div>
+      `;
+      messagesContainer.appendChild(loadingRow);
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+      try {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: query, session_id: sessionId })
+        });
+
+        const loadingElem = document.getElementById("loading-bubble");
+        if (loadingElem) loadingElem.remove();
+
+        if (response.ok) {
+          const data = await response.json();
+          appendMessage("assistant", data.answer, data.citations, data.model_used);
+        } else {
+          appendMessage("assistant", "An error occurred while retrieving information from the service.");
+        }
+      } catch (err) {
+        const loadingElem = document.getElementById("loading-bubble");
+        if (loadingElem) loadingElem.remove();
+        appendMessage("assistant", `Connection error: ${err.message}`);
+      } finally {
+        sendBtn.disabled = false;
+        fetchStats();
+      }
+    });
+
+    // Run on startup
+    fetchStats();
+  </script>
+</body>
+</html>
