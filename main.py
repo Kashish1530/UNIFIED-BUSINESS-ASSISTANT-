@@ -1,11 +1,3 @@
-
-"""Role B mock API for the Unified Business Assistant.
-
-This mock deliberately does not call Groq or execute SQL.
-Replace its implementation with the real data service after
-Role C has integrated against the agreed response contract.
-"""
-
 from typing import Any
 
 from fastapi import FastAPI
