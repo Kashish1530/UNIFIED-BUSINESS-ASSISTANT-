@@ -1,0 +1,34 @@
+# ==============================================================================
+# Unified Business Assistant - Role A (Knowledge Service) Dependencies
+# Cross-Platform (Windows / Linux / macOS) Compatible Requirements
+# ==============================================================================
+
+# Core RAG Framework & Text Chunking
+langchain>=0.3.0
+langchain-core>=0.3.0
+langchain-text-splitters>=0.3.0
+langchain-openai>=0.2.0
+
+# Vector Database
+chromadb>=0.5.0
+
+# Document Ingestion, PDF & Table Extraction
+pypdf>=4.0.0
+pdfplumber>=0.11.0
+pytesseract>=0.3.10
+
+# Database & HTTP Clients (Neon PostgreSQL & Web APIs)
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Embeddings & Language Models
+openai>=1.40.0
+sentence-transformers>=3.0.0
+
+# API Server & Data Validation (Role A POST /search endpoint)
+fastapi>=0.110.0
+uvicorn>=0.28.0
+pydantic>=2.0.0
+
+# Optional: Re-ranking experiments (Notebook 13)
+# cohere>=5.0.0
