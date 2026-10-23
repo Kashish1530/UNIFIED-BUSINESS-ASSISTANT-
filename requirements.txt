@@ -1,0 +1,10 @@
+
+# UNIFIED BUSINESS ASSISTANT - Role B (Data Service)
+# Core dependencies
+sqlglot>=30.0.0
+groq>=0.37.0
+psycopg2-binary>=2.9.9
+
+# API service
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
