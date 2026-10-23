@@ -1,14 +1,3 @@
--- Either:
---     Open MySQL Workbench.
---     Connect to your MySQL server.
---     Create a new database named Northwind.db.
---     Copy and paste the SQL below into the query window.
---     Execute the script to create the Northwind database.
--- Or:
---     Run the following command in a terminal window.
---     mysql
---     Copy and paste the SQL below into the terminal window to create the Northwind database.
-
 CREATE DATABASE IF NOT EXISTS Northwind;
 USE Northwind;
 
